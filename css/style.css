@@ -345,145 +345,41 @@ header.site {
 }
 .machine-head p { max-width: 440px; margin: 0; }
 
-.machine {
-  background: var(--led-bg);
-  border-radius: 12px;
-  padding: clamp(18px, 3vw, 34px);
-  border: 1px solid rgba(53,224,196,0.15);
-  box-shadow: 0 30px 80px rgba(11,31,27,0.18);
-}
-.machine-glass {
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 8px;
-  padding: clamp(14px, 2.4vw, 26px);
-  background:
-    linear-gradient(115deg, rgba(255,255,255,0.045) 0%, transparent 30%),
-    rgba(255,255,255,0.015);
-}
-.shelf {
+.format-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
-@media (max-width: 900px) { .shelf { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 520px) { .shelf { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .format-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .format-grid { grid-template-columns: 1fr; } }
 
-.slot {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  text-align: center;
-  position: relative;
+.format-card {
+  background: var(--show-dim);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 26px 24px 22px;
 }
-.slot-product {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
-  padding: 20px 8px 16px;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-  position: relative;
-  overflow: visible;
-}
-.slot:hover .slot-product { background: rgba(53,224,196,0.08); border-color: var(--led-dim); }
-.slot.selected .slot-product {
-  background: rgba(53,224,196,0.12);
-  border-color: var(--led);
-}
-.slot.vending .slot-product { animation: vend-drop 0.55s cubic-bezier(0.5, 0, 0.7, 0.4); }
-@keyframes vend-drop {
-  0%   { transform: translateY(0); opacity: 1; }
-  55%  { transform: translateY(46px); opacity: 0.25; }
-  56%  { transform: translateY(-6px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-.slot-glyph {
+.format-icon {
   width: 40px;
   height: 40px;
-  margin: 0 auto 12px;
-  color: var(--led);
+  margin-bottom: 16px;
+  color: var(--teal);
 }
-.slot.selected .slot-glyph, .slot:hover .slot-glyph { color: #7df3dd; }
-.slot-name {
-  display: block;
-  font-family: var(--mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.65);
-  min-height: 2.4em;
-  line-height: 1.2;
-  padding: 0 2px;
-}
-.slot .slot-code-chip {
-  display: inline-block;
-  margin-top: 10px;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--led);
-  border: 1px solid var(--led-dim);
-  border-radius: 2px;
-  padding: 2px 8px;
-}
-.slot.selected .slot-code-chip { background: var(--led); color: var(--led-bg); border-color: var(--led); }
-
-/* Coil — scalloped spiral under each product */
-.slot-coil {
-  display: block;
-  width: 100%;
-  height: 12px;
-  margin-top: 12px;
-  color: rgba(255,255,255,0.22);
-}
-.slot:hover .slot-coil, .slot.selected .slot-coil { color: var(--led-dim); }
-
-/* Vend tray — where the selection lands */
-.vend-tray {
-  margin-top: 16px;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-top: 3px solid rgba(255,255,255,0.14);
-  border-radius: 6px;
-  padding: clamp(20px, 3vw, 30px);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 26px;
-  align-items: center;
-  min-height: 130px;
-}
-.vend-tray.flash { animation: tray-flash 0.5s ease; }
-@keyframes tray-flash {
-  0% { border-color: var(--led); background: rgba(53,224,196,0.10); }
-  100% { border-color: rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); }
-}
-.tray-code {
-  font-family: var(--mono);
-  font-size: clamp(26px, 3.4vw, 38px);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--led);
-}
-.tray-body h3 {
-  color: #fff;
+.format-card h3 {
   font-stretch: 112%;
   font-weight: 750;
   text-transform: uppercase;
-  font-size: clamp(17px, 2vw, 22px);
-  margin-bottom: 7px;
+  font-size: 17px;
+  margin-bottom: 8px;
 }
-.tray-body p {
-  color: rgba(255,255,255,0.62);
+.format-card p {
   font-size: 14.5px;
   margin: 0;
-  max-width: 560px;
 }
-.tray-cta { flex-shrink: 0; }
-@media (max-width: 760px) {
-  .vend-tray { grid-template-columns: 1fr; gap: 14px; text-align: left; }
+
+.format-cta {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .machine-footnote {
@@ -870,4 +766,3 @@ textarea:focus-visible, select:focus-visible {
   outline: 2px solid var(--teal);
   outline-offset: 2px;
 }
-.slot:focus-visible .slot-product { border-color: var(--led); }
