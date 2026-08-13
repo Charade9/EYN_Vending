@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>QR Generator (internal) | EYN Vending</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .qr-tool { max-width: 680px; margin: 0 auto; padding: 0 var(--gutter); }
+  .qr-stage {
+    background: var(--led-bg);
+    border: 1px solid rgba(53,224,196,0.25);
+    border-radius: 12px;
+    padding: 34px;
+    text-align: center;
+    margin-top: 30px;
+  }
+  #qr-canvas-box { display: inline-block; background: #fff; padding: 20px; border-radius: 8px; }
+  #qr-canvas-box img, #qr-canvas-box canvas { display: block; }
+  .qr-url {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--led);
+    word-break: break-all;
+    margin-top: 22px;
+    line-height: 1.5;
+  }
+  .qr-empty { font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,0.4); padding: 40px 0; }
+  .qr-actions { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+  .internal-flag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--amber); border: 1px solid var(--amber); border-radius: 3px; padding: 5px 10px; display: inline-block;
+    margin-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="wrap qr-tool">
+    <span class="internal-flag">Internal tool — do not link publicly</span>
+    <h1 class="hd hd-lg">Location QR Generator</h1>
+    <p>Type a location name, download its QR code, and stick it on that machine. Each code points customers to the suggestion page pre-tagged with the location, so you know which machine every suggestion is for.</p>
+  </div>
+</div>
+
+<section class="pad">
+  <div class="qr-tool">
+    <div class="field">
+      <label for="base-url">Suggestion page URL</label>
+      <input type="text" id="base-url" value="https://www.eynvending.com/suggest.html">
+    </div>
+    <div class="field">
+      <label for="loc-name">Location name</label>
+      <input type="text" id="loc-name" placeholder="e.g. A+ Roofing — Land O' Lakes" autofocus>
+    </div>
+
+    <div class="qr-stage">
+      <div id="qr-canvas-box"><div class="qr-empty" id="qr-empty">Enter a location name above ↑</div></div>
+      <div class="qr-url" id="qr-url"></div>
+      <div class="qr-actions" id="qr-actions" style="display:none;">
+        <button class="btn btn-led" id="dl-png">Download PNG</button>
+        <button class="btn btn-ghost" id="copy-url" style="border-color:rgba(255,255,255,0.3); color:#fff;">Copy Link</button>
+      </div>
+    </div>
+
+    <p class="suggest-note" style="margin-top:26px;">Tip: print it as a small table-tent or sticker with a line like “Scan to tell us what to stock.” Bigger is better for scan reliability — the PNG downloads at 1000&times;1000.</p>
+  </div>
+</section>
+
+<!-- QR library (loads from CDN; needs internet in your browser) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  var baseInput = document.getElementById('base-url');
+  var locInput = document.getElementById('loc-name');
+  var box = document.getElementById('qr-canvas-box');
+  var empty = document.getElementById('qr-empty');
+  var urlOut = document.getElementById('qr-url');
+  var actions = document.getElementById('qr-actions');
+  var qr = null;
+  var currentUrl = '';
+
+  function slug(s) {
+    return s.trim().replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-_'&+.]/g, '');
+  }
+
+  function build() {
+    var name = locInput.value.trim();
+    box.innerHTML = '';
+    if (!name) {
+      box.appendChild(empty);
+      urlOut.textContent = '';
+      actions.style.display = 'none';
+      return;
+    }
+    var base = baseInput.value.trim().replace(/\?.*$/, '');
+    currentUrl = base + '?loc=' + encodeURIComponent(slug(name));
+    // Render QR (high correction so it survives print/stickers)
+    qr = new QRCode(box, {
+      text: currentUrl,
+      width: 1000,
+      height: 1000,
+      colorDark: '#0B1F1B',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    // Constrain on-screen size (keep 1000px in the actual image data)
+    setTimeout(function () {
+      var img = box.querySelector('img') || box.querySelector('canvas');
+      if (img) { img.style.width = '260px'; img.style.height = '260px'; }
+    }, 30);
+    urlOut.textContent = currentUrl;
+    actions.style.display = 'flex';
+  }
+
+  locInput.addEventListener('input', build);
+  baseInput.addEventListener('input', build);
+
+  document.getElementById('dl-png').addEventListener('click', function () {
+    var img = box.querySelector('img') || box.querySelector('canvas');
+    if (!img) return;
+    var src = img.tagName === 'CANVAS' ? img.toDataURL('image/png') : img.src;
+    var a = document.createElement('a');
+    a.href = src;
+    a.download = 'eyn-qr-' + slug(locInput.value || 'location') + '.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  });
+
+  document.getElementById('copy-url').addEventListener('click', function () {
+    if (!currentUrl) return;
+    navigator.clipboard.writeText(currentUrl).then(function () {
+      var b = document.getElementById('copy-url');
+      var t = b.textContent; b.textContent = 'Copied!';
+      setTimeout(function () { b.textContent = t; }, 1400);
+    });
+  });
+})();
+</script>
+</body>
+</html>
