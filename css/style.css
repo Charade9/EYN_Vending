@@ -69,6 +69,9 @@ button { font: inherit; }
   letter-spacing: -0.01em;
 }
 .hd-xl { font-size: clamp(42px, 7.2vw, 92px); line-height: 0.94; }
+@media (max-width: 480px) {
+  .hd-xl { font-size: clamp(30px, 8.8vw, 40px); font-stretch: 104%; }
+}
 .hd-lg { font-size: clamp(30px, 4.4vw, 54px); line-height: 0.98; }
 .hd-md { font-size: clamp(22px, 2.8vw, 32px); }
 
