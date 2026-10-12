@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Internal tool for printing location QR codes. Not a public page.
+Disallow: /qr-generator.html
+
+Sitemap: https://www.eynvending.com/sitemap.xml
