@@ -166,7 +166,7 @@ header.site {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: 26px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -194,7 +194,7 @@ header.site {
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
 .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); margin: 5px 0; }
 
-@media (max-width: 900px) {
+@media (max-width: 1080px) {
   .nav-links { display: none; }
   .nav-toggle { display: block; }
   .nav-links.open {
@@ -305,7 +305,7 @@ header.site {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 35%;
+  object-position: center center;
 }
 .hero-photo .photo-spec {
   position: absolute;
@@ -827,7 +827,7 @@ footer.site {
   margin-bottom: 12px;
 }
 .footer-brand .mark { width: 26px; height: 26px; }
-.footer-tag { max-width: 260px; font-size: 14px; }
+.footer-tag { max-width: 320px; font-size: 14px; }
 .footer-links { display: flex; gap: 60px; flex-wrap: wrap; }
 .footer-col h4 {
   font-family: var(--mono);
@@ -871,6 +871,72 @@ textarea:focus-visible, select:focus-visible {
   outline-offset: 2px;
 }
 .slot:focus-visible .slot-product { border-color: var(--led); }
+
+/* ===========================================================
+   Host callout, review, framed photos
+   =========================================================== */
+.host-band {
+  background: var(--led-bg);
+  color: #fff;
+  border-bottom: 1px solid rgba(53, 224, 196, 0.18);
+  padding: 64px 0;
+}
+.host-band-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px 48px;
+  flex-wrap: wrap;
+}
+.host-band .mono { color: var(--led); display: block; margin-bottom: 14px; }
+.host-band h2 { color: #fff; margin-bottom: 14px; max-width: 14ch; }
+.host-band p { color: rgba(255,255,255,0.68); max-width: 480px; margin: 0; }
+.host-band .btn { flex-shrink: 0; }
+
+.quote-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--line);
+}
+.quote-block { max-width: 820px; }
+.quote-block .mono { color: var(--teal); display: block; margin-bottom: 16px; }
+.quote-stars {
+  display: flex;
+  gap: 3px;
+  color: var(--amber);
+  margin-bottom: 18px;
+}
+.quote-stars svg { width: 18px; height: 18px; display: block; }
+.quote-block blockquote { margin: 0; }
+.quote-block blockquote p {
+  color: var(--ink);
+  font-size: clamp(20px, 2.5vw, 28px);
+  line-height: 1.38;
+  font-weight: 560;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.quote-by {
+  margin: 22px 0 0;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.quote-by span { color: var(--ink-30); padding-left: 10px; }
+
+.split .ph.frame {
+  aspect-ratio: 4 / 5;
+  position: relative;
+}
+.split .ph.frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
 
 /* ===========================================================
    Suggestion box (hidden page, reached via QR)
