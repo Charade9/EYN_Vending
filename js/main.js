@@ -25,48 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  // ---- Vending shelf ----
-  var slots = document.querySelectorAll('.slot');
-  var tray = document.querySelector('.vend-tray');
-  var trayCode = document.querySelector('.tray-code');
-  var trayTitle = document.querySelector('.tray-body h3');
-  var trayDesc = document.querySelector('.tray-body p');
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function updateTray(slot) {
-    trayCode.textContent = slot.dataset.code;
-    trayTitle.textContent = slot.dataset.title;
-    trayDesc.textContent = slot.dataset.desc;
-  }
-
-  if (slots.length && tray && trayCode) {
-    slots.forEach(function (slot) {
-      slot.addEventListener('click', function () {
-        if (slot.classList.contains('selected')) return;
-
-        slots.forEach(function (s) { s.classList.remove('selected', 'vending'); });
-        slot.classList.add('selected');
-
-        if (reducedMotion) {
-          updateTray(slot);
-          return;
-        }
-
-        // Drop animation: product falls, tray flashes, content swaps mid-fall
-        slot.classList.add('vending');
-        tray.classList.remove('flash');
-        setTimeout(function () { updateTray(slot); }, 300);
-        setTimeout(function () {
-          tray.classList.add('flash');
-        }, 320);
-        slot.addEventListener('animationend', function handler() {
-          slot.classList.remove('vending');
-          slot.removeEventListener('animationend', handler);
-        });
-      });
-    });
-  }
-
   // ---- Contact form -> pre-filled email ----
   var form = document.getElementById('contact-form');
   if (form) {
