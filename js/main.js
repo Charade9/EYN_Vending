@@ -34,8 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
         var el = form.querySelector('#' + id);
         return el ? el.value : '';
       };
+      var ref = '';
+      try {
+        ref = new URLSearchParams(window.location.search).get('ref') || '';
+      } catch (err) {
+        ref = '';
+      }
+      if (!/^[A-Za-z0-9-]{1,80}$/.test(ref)) ref = '';
       var subject = 'Consultation Request from ' + v('name');
       var body =
+        (ref ? 'Ref: ' + ref + '\n\n' : '') +
         'Name: ' + v('name') + '\n' +
         'Email: ' + v('email') + '\n' +
         'Phone: ' + v('phone') + '\n' +

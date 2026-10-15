@@ -4,4 +4,7 @@ Allow: /
 # Internal tool for printing location QR codes. Not a public page.
 Disallow: /qr-generator.html
 
+# Unpublished drafts. Not linked from the site.
+Disallow: /drafts/
+
 Sitemap: https://www.eynvending.com/sitemap.xml
