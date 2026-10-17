@@ -753,6 +753,38 @@ footer.site {
 }
 .footer-brand .mark { width: 26px; height: 26px; }
 .footer-tag { max-width: 320px; font-size: 14px; }
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  border: 1px solid rgba(53, 224, 196, 0.45);
+  border-radius: 50%;
+  color: var(--led);
+  background: transparent;
+}
+.social-links a:hover {
+  color: var(--led-bg);
+  background: var(--led);
+  border-color: var(--led);
+}
+.social-links svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.contact-display .social-links { margin: 2px 0 0; }
 .footer-links { display: flex; gap: 60px; flex-wrap: wrap; }
 .footer-col h4 {
   font-family: var(--mono);
